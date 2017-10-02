@@ -20,8 +20,7 @@
 				<f:facet name="footer">
 					<p:commandButton value="Novo" icon="ui-icon-circle-plus"
 						oncomplete="PF('dialogo').show();"
-						actionListener="#{unidadeBean.novo}">
-						<!-- ajax para atualizar form cadastro panel cadastro -->
+						actionListener="#{unidadeBean.novo}" update=":form:panel">
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</p:commandButton>
@@ -29,9 +28,135 @@
 					<p:commandButton value="Imprimir" icon="ui-icon-print" />
 				</f:facet>
 
+				<p:column headerText="Opções" width="100">
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{unidadeBean.excluir}">
+						<!-- ajax para atualizar mensagem , form  form cadastro e tabela -->
+					</p:commandButton>
+				</p:column>
+
+
+				<p:column headerText="Código" width="100" sortBy="#{cdl.id}">
+					<h:outputText value="#{cdl.id}" />
+				</p:column>
+
+				<p:column headerText="Nome" sortBy="#{cdl.nome}}"
+					filterBy="#{cdl.nome}">
+					<h:outputText value="#{cdl.nome}" />
+				</p:column>
+
+				<p:column headerText="Fantasia" sortBy="#{cdl.apelido}}"
+					filterBy="#{cdl.apelido}">
+					<h:outputText value="#{cdl.apelido}" />
+				</p:column>
+
 			</p:dataTable>
 		</p:panel>
 	</h:form>
+
+	<p:dialog header="Unidade CDL - Cadastro" modal="true"
+		draggable="false" resizable="false" widgetVar="dialogo">
+		<h:form id="form">
+			<h:panelGrid id="panel" columns="4" cellpadding="5">
+				<p:outputLabel for="nome" value="Nome:" />
+				<p:inputText id="nome" maxlength="50" size="30"
+					value="#{unidadeBean.unidade.nome}" required="true"
+					converter="omnifaces.ToUpperCaseConverter" />
+
+				<p:outputLabel for="apelido" value="Apelido:" />
+				<p:inputText id="apelido" maxlength="50" size="30"
+					value="#{unidadeBean.unidade.apelido}" required="true"
+					converter="omnifaces.ToUpperCaseConverter" />
+
+				<p:outputLabel for="cnpj" value="CNPJ:" />
+				<p:inputMask mask="99.999.999/9999-99" id="cnpj"
+					value="#{unidadeBean.unidade.documento}" required="true">
+					<f:convertNumber pattern="########" maxFractionDigits="0" />
+				</p:inputMask>
+
+				<p:outputLabel value="Inscrição Estadual:" />
+				<p:inputNumber maxlength="15" size="15"
+					value="#{unidadeBean.unidade.incEstadual}" />
+
+				<p:outputLabel value="Inscrição Municipal:" />
+				<p:inputNumber maxlength="15" size="15"
+					value="#{unidadeBean.unidade.incMunicipal}" />
+
+				<p:outputLabel for="local" value="Endereço:" />
+				<p:inputText id="local" maxlength="50" size="30"
+					value="#{unidadeBean.unidade.endereco}" required="true"
+					converter="omnifaces.ToUpperCaseConverter" />
+
+				<p:outputLabel value="Número" />
+				<p:inputText maxlength="4" size="10"
+					value="#{unidadeBean.unidade.numero}"
+					converter="omnifaces.ToUpperCaseConverter" />
+
+				<p:outputLabel value="Complemento:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{unidadeBean.unidade.complemento}"
+					converter="omnifaces.ToUpperCaseConverter" />
+
+				<p:outputLabel for="bairro" value="Bairro" />
+				<p:inputText id="bairro" maxlength="20" size="20"
+					value="#{unidadeBean.unidade.bairro}" required="true"
+					converter="omnifaces.ToUpperCaseConverter" />
+
+				<p:outputLabel for="cidade" value="Cidade:" />
+				<p:inputText id="cidade" maxlength="35" size="30"
+					value="#{unidadeBean.unidade.cidade}" required="true"
+					converter="omnifaces.ToUpperCaseConverter" />
+
+				<p:outputLabel for="cep" value="CEP:" />
+				<p:inputMask id="cep" mask="99.999-999" size="10"
+					value="#{unidadeBean.unidade.cep}" required="true">
+					<f:convertNumber pattern="########" maxFractionDigits="0" />
+				</p:inputMask>
+
+				<p:outputLabel for="uf" value="Estado: " />
+				<p:selectOneMenu id="uf" value="#{unidadeBean.unidade.uf}"
+					style="width:125px" required="true"
+					converter="omnifaces.ToUpperCaseConverter">
+					<f:selectItem itemLabel="informe o estado" />
+					<f:selectItem itemLabel="Bahia" itemValue="BA" />
+					<f:selectItem itemLabel="Alagoas" itemValue="AL" />
+					<f:selectItem itemLabel="Sergipe" itemValue="SE" />
+					<f:selectItem itemLabel="Pernambuco" itemValue="PE" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Fone 1:" />
+				<p:inputMask mask="99  99999-9999"
+					value="#{unidadeBean.unidade.fone1}">
+					<f:convertNumber pattern="###########" maxFractionDigits="0" />
+				</p:inputMask>
+
+
+				<p:outputLabel value="Fone 2:" />
+				<p:inputMask mask="99  99999-9999"
+					value="#{unidadeBean.unidade.fone2}">
+					<f:convertNumber pattern="###########" maxFractionDigits="0" />
+				</p:inputMask>
+
+				<p:outputLabel value="E-mail:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{unidadeBean.unidade.email}"
+					converter="omnifaces.ToLowerCaseConverter" />
+
+
+			</h:panelGrid>
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:commandButton value="Salvar" icon="ui-icon-circle-check"
+					actionListener="#{unidadeBean.salvar}"
+					update=":mensagem :form:panel :listagem:tabela" />
+
+				<p:commandButton value="Fechar" icon="ui-icon-circle-close"
+					oncomplete="PF('dialogo').hide();" />
+
+			</h:panelGrid>
+
+		</h:form>
+
+	</p:dialog>
 
 </h:body>
 </html>

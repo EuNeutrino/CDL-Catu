@@ -29,7 +29,7 @@ public class PessoaGenerica extends EntidadeGenerica {
 	@Column(length = 50, nullable = false)
 	private String endereco;
 
-	@Column(length = 4)
+	@Column(length = 10)
 	private String numero;
 
 	@Column(columnDefinition = "BIGINT(11)")
@@ -41,13 +41,13 @@ public class PessoaGenerica extends EntidadeGenerica {
 	@Column(length = 50)
 	private String email;
 
-	@Column(length = 20)
+	@Column(length = 50)
 	private String complemento;
 
 	@Column(length = 20, nullable = false)
 	private String bairro;
 
-	@Column(length = 35, nullable = false)
+	@Column(length = 50, nullable = false)
 	private String cidade;
 
 	@Column(columnDefinition = "BIGINT(8) not null")
@@ -158,6 +158,22 @@ public class PessoaGenerica extends EntidadeGenerica {
 
 	public void setUf(String uf) {
 		this.uf = uf;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 
 }
